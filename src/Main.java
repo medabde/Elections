@@ -3,8 +3,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static Utils utils= new Utils();
-
     public static void main(String[] args) {
         // setting up variables ...
         List<Liste> listes= new ArrayList<>();
@@ -19,6 +17,7 @@ public class Main {
 
         System.out.println("entrer le nombre de sièges à pourvoir : ");
         nbSieges=sc.nextInt();
+
         while (nbSieges<=0){
             System.out.println("ERREUR : le nombre de sièges ne doit pas etre negative ou egale a 0\n");
             System.out.println("entrer encore le nombre de sièges à pourvoir : ");
@@ -59,29 +58,32 @@ public class Main {
 
         distributeSiegesLeft(listes,nbSiegesLeft);
 
-        utils.displayListe(listes);
+        Utils.displayListe(listes);
 
 
 
     }
+
     public static void setPourcentages(List<Liste> listes){
-        int voixTotale=utils.getNbTotaleVoix(listes);
+        int voixTotale=Utils.getNbTotaleVoix(listes);
         for (int i = 0; i <listes.size() ; i++) {
-            listes.get(i).setPourcentage(utils.getPourcentage(listes.get(i).getNbVoix(),voixTotale));
+            listes.get(i).setPourcentage(Utils.getPourcentage(listes.get(i).getNbVoix(),voixTotale));
         }
     }
+
     public static void deleteUnder5(List<Liste> listes){
         for (int i = 0; i <listes.size() ; i++) {
             if (listes.get(i).getPourcentage()<5.0){
-                utils.deleteItemByName(listes.get(i).getNom(),listes);
+                Utils.deleteItemByName(listes.get(i).getNom(),listes);
                 //listes.remove(listes.get(i));
                 i=0;
             }
         }
     }
+
     public static int quotientElectoral(List<Liste> listes,int nbSieges){
         int res=nbSieges;
-        int voixTotale=utils.getNbTotaleVoix(listes);
+        int voixTotale=Utils.getNbTotaleVoix(listes);
         int quotientElectoral=voixTotale/nbSieges;
         for (int i = 0; i <listes.size() ; i++) {
             if (listes.get(i).getNbVoix()>=quotientElectoral){
@@ -91,11 +93,13 @@ public class Main {
         }
         return res;
     }
+
     public static void setReparationScore(List<Liste> listes){
         for (int i = 0; i < listes.size() ; i++) {
             listes.get(i).setReparationScore(listes.get(i).getNbVoix()/(listes.get(i).getNbSieges()+1));
         }
     }
+
     public static void distributeSiegesLeft(List<Liste> listes,int nbSiegesLeft){
         int max;
         int maxid;
